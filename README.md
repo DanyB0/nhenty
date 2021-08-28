@@ -1,5 +1,6 @@
 # Nhenty
 ### Nhenty is a simple cli doujins downloader
+[![2021-08-29-13-36-42.gif](https://i.postimg.cc/k4YVrzdS/2021-08-29-13-36-42.gif)](https://postimg.cc/dkdQrW3Q)
 
 # Installation
 - ### clone the repo wherever you want
