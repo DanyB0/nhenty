@@ -1,4 +1,5 @@
-# Nhentai doujins downloader
+# Nhenty
+### Nhenty is a simple cli doujins downloader
 
 # Installation
 - ### clone the repo wherever you want
