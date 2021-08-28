@@ -145,7 +145,7 @@ def random_doujin():
 
     # Doujin's title
     print(
-        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] {phrase}:   {doujin.title(Format.Pretty)}"
+        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] {phrase}:   {doujin.title(Format.Pretty)}\n"
     )
     return doujin
 
