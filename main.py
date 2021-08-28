@@ -74,8 +74,11 @@ def id_doujin(id):
 def details(doujin):
     # Display the doujin's tags
     tags = []
-    for tag in doujin.tag:
-        tags.append(f"{tag.name}")
+    try:
+        for tag in doujin.tag:
+            tags.append(f"{tag.name}")
+        except IndexError:
+            pass
     print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Tag:   {tags[0]}")
     tags.pop(0)
     for tag in tags:
