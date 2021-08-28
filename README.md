@@ -1,7 +1,7 @@
 
 # [![Senza-nome.png](https://i.postimg.cc/ry3tc0rd/Senza-nome.png)](https://postimg.cc/Jt3h5hKm) Nhenty
 ### Nhenty is a simple CLI doujins downloader
-[![ezgif-com-gif-maker.gif](https://i.postimg.cc/Bv3RxHCz/ezgif-com-gif-maker.gif)](https://postimg.cc/dhWWF7pR)
+[![ezgif-com-gif-maker.gif](https://i.postimg.cc/sxMZF8C8/ezgif-com-gif-maker.gif)](https://postimg.cc/hQqGT2jb)
 
 # Installation
 - ### clone the repo wherever you want
