@@ -2,6 +2,7 @@ import argparse
 import random
 
 import colorama
+import requests
 from hentai import Format, Hentai, Utils
 
 parser = argparse.ArgumentParser(
@@ -12,9 +13,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "-r", "--random", dest="random", help="Random doujin", action="store_true"
 )
-parser.add_argument(
-    "-id", dest="id", type=int, help="Doujin id", action="store"
-)
+parser.add_argument("-id", dest="id", type=int, help="Doujin id", action="store")
 parser.add_argument(
     "-dtls",
     "--details",
@@ -35,19 +34,44 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "-i", "--interest", dest="interest", help="Area of interest (ex.character, tag...)", action="store"
+    "-i",
+    "--interest",
+    dest="interest",
+    help="Area of interest (ex.character, tag...)",
+    action="store",
 )
 
+parser.add_argument("-q", "--query", dest="query", help="Query", action="store")
+
 parser.add_argument(
-    "-q", "--query", dest="query", help="Query", action="store"
+    "-visual", dest="visual", help="Use the 'visual' mode", action="store_true"
 )
 
 
 args = parser.parse_args()
 
 
+def id_doujin(id):
+    # Check that the doujin exists
+    try:
+        doujin = Hentai(id)
+    except requests.exceptions.HTTPError:
+        print(f"[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The doujin does not exist")
+        exit()
+
+    # Doujin's title
+    print(
+        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Title: {doujin.title(Format.Pretty)}\n"
+    )
+
+    if args.download:
+        download(doujin)
+
+    return doujin
+
+
 # Display the doujin's informations
-def details():
+def details(doujin):
     # Display the doujin's tags
     tags = []
     for tag in doujin.tag:
@@ -56,7 +80,6 @@ def details():
     tags.pop(0)
     for tag in tags:
         print(f"           {tag}")
-    print("\n|--------------------------------------------------------|\n")
 
     # Display the Artist info
     try:
@@ -90,38 +113,18 @@ def details():
         info = info.replace("=", " = ")
         artist.append(info)
     try:
-        print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Artist: {artist[0]}")
-        print(f"            {artist[1]}")
-        print(f"            {artist[2]}")
-        print(f"            {artist[3]}")
+        print(f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Other: {artist[0]}")
+        print(f"           {artist[1]}")
+        print(f"           {artist[2]}")
+        print(f"           {artist[3]}")
     except IndexError:
         pass
 
-
-# Download the doujin
-def download():
-    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}]")
-    doujin.download(progressbar=True)
-    print("\n|--------------------------------------------------------|\n")
+    if args.download:
+        download(doujin)
 
 
-# View the source images
-def source():
-    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Source:")
-    for image in doujin.image_urls:
-        print(f"            {image}")
-    print("\n|--------------------------------------------------------|\n")
-
-
-# Advanced query (search by tag or character)
-def advanced_query(query, interest):
-    print(f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Some {query} doujins 4 u!\n")
-    for doujin in Utils.search_by_query(f"{interest}:{query}"):
-        print(f"\ {doujin.title(Format.Pretty)}")
-    print("\n|--------------------------------------------------------|\n")
-
-
-if args.random:
+def random_doujin():
     cringy_phrases = [
         "Look at what I found",
         "Hmmmmm",
@@ -129,50 +132,138 @@ if args.random:
         "OMG this is fantastic!!!",
         "Ya-yamete kudasai onii-chan",
     ]
+    # Get a random phrase
     phrase = random.choices(cringy_phrases)[0]
+
     # Get a randon ID
     rand_hnt = Utils.get_random_id()
+
     doujin = Hentai(rand_hnt)
+
     # Doujin's title
     print(
         f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] {phrase}:   {doujin.title(Format.Pretty)}"
     )
-    print("\n|--------------------------------------------------------|\n")
+    return doujin
 
-    if args.details:
-        details()
 
+# View the source images
+def source(doujin):
+    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Source:")
+    for image in doujin.image_urls:
+        print(f"            {image}")
     if args.download:
-        download()
+        download(doujin)
 
-    if args.source:
-        source()
 
-if args.id:
-    doujin = Hentai(args.id)
+# Download the doujin
+def download(doujin):
+    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}]")
+    doujin.download(progressbar=True)
 
-    # Check that the doujin exists
-    if not Hentai.exists(doujin.id):
-        print(f"\n{colorama.Fore.RED}The doujin does not exist")
 
-    # Doujin's title
+def func_query(interest, query):
     print(
-        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Title: {doujin.title(Format.Pretty)}"
+        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Some {query} doujins 4 u!\n"
     )
+    for doujin in Utils.search_by_query(f"{interest}:{query}"):
+        print(f"\ {doujin.title(Format.Pretty)}")
 
-    print("\n|--------------------------------------------------------|\n")
 
-    if args.details:
-        details()
+# Visual part
+def menu():
+    if args.visual:
+        print(
+            f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] What do you want to do? [1-3]\n"
+        )
+        print("1) Search by id")
+        print("2) Get a random doujin")
+        print("3) Advanced query")
+        print("4) Exit")
+        choice = int(input("\nChoice: "))
+        print("\n")
+        if choice == 1:
+            print("SEARCH BY ID\n")
+            id = int(input("Doujin id: "))
+            ask_det = input("Do you want to see the details (y/n)? ")
+            if ask_det == "y":
+                doujin = id_doujin(id)
+                details(doujin)
+            else:
+                doujin = id_doujin(id)
+            ask_down = input("Do you want to download the doujin (y/n)? ")
+            if ask_down == "y":
+                download(doujin)
+                menu()
+            else:
+                menu()
 
-    if args.download:
-        download()
+        elif choice == 2:
+            print("RANDOM DOUJIN\n")
+            ask_det = input("Do you want to see the details (y/n)? ")
+            if ask_det == "y":
+                doujin = random_doujin()
+                details(doujin)
+            else:
+                doujin = random_doujin()
+            ask_down = input("Do you want to download the doujin (y/n)? ")
+            if ask_down == "y":
+                download(doujin)
+                menu()
+            else:
+                menu()
+        elif choice == 3:
+            print("ADVANCED QUERY\n")
+            interest = input("Write your interest (tag, character...): ")
+            query = input("Query: ")
+            func_query(interest, query)
+            menu()
 
-    if args.source:
-        source()
+        elif choice == 4:
+            print("Bye :)")
+            exit()
 
-if args.query:
-    if args.interest:
-        advanced_query(args.query, args.interest)
-    else:
-        print(f"[{colorama.Fore.RED}X{colorama.Fore.WHITE}] You must specify your area of interest (tag, character...)\n    Use the option -h for help")
+
+if __name__ == "__main__":
+
+    print("    __ _                _          ")
+    print("  /\ \ \ |__   ___ _ __ | |_ _   _ ")
+    print(" /  \/ / '_ \ / _ \ '_ \| __| | | |")
+    print("/ /\  /| | | |  __/ | | | |_| |_| |")
+    print("\_\ \/ |_| |_|\___|_| |_|\__|\__, |")
+    print("                             |___/ ")
+
+    menu()
+
+    # CLI part
+    if args.random:
+        doujin = random_doujin()
+
+        if args.details:
+            details(doujin)
+
+        elif args.download:
+            download(doujin)
+
+        elif args.source:
+            source(doujin)
+
+    elif args.id:
+        id = args.id
+        doujin = id_doujin(id)
+
+        if args.details:
+            details(doujin)
+
+        elif args.source:
+            source(doujin)
+
+    elif args.query:
+        if args.interest:
+            interest = args.interest
+            query = interest.query
+            func_query(interest, query)
+        else:
+            print(
+                f"[{colorama.Fore.RED}X{colorama.Fore.WHITE}] You must specify your area of interest (tag, character...)\n    Use the option -h for help"
+            )
