@@ -108,8 +108,8 @@ if args.random:
     details()
 
 
-if args.number:
-    doujin = Hentai(args.number)
+if args.id:
+    doujin = Hentai(args.id)
 
     # Check that the doujin exists
     if not Hentai.exists(doujin.id):
