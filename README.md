@@ -1,5 +1,7 @@
 # [![Senza-nome.png](https://i.postimg.cc/ry3tc0rd/Senza-nome.png)](https://postimg.cc/Jt3h5hKm) Nhenty
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![CodeFactor](https://www.codefactor.io/repository/github/danyb0/nhenty/badge/main)](https://www.codefactor.io/repository/github/danyb0/nhenty/overview/main)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 ### Nhenty is a simple doujins downloader
 ## Installation
 - #### clone the repo wherever you want ( `git clone https://www.github.com/DanyB0/nhenty` )
