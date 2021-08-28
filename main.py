@@ -34,9 +34,19 @@ parser.add_argument(
     action="store_true",
 )
 
+parser.add_argument(
+    "-i", "--interest", dest="interest", help="Area of interest (ex.character, tag...)", action="store"
+)
+
+parser.add_argument(
+    "-q", "--query", dest="query", help="Query", action="store"
+)
+
+
 args = parser.parse_args()
 
 
+# Display the doujin's informations
 def details():
     # Display the doujin's tags
     tags = []
@@ -58,8 +68,8 @@ def details():
 
          The "doujin.artist" response is a type object, which I convereted
          in a string and extracted all the informations I wanted
-        
-        """
+
+    """
 
     try:
         art_info_str = art_info_str[4:-1].replace(" ", "")
@@ -88,6 +98,29 @@ def details():
         pass
 
 
+# Download the doujin
+def download():
+    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}]")
+    doujin.download(progressbar=True)
+    print("\n|--------------------------------------------------------|\n")
+
+
+# View the source images
+def source():
+    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Source:")
+    for image in doujin.image_urls:
+        print(f"            {image}")
+    print("\n|--------------------------------------------------------|\n")
+
+
+# Advanced query (search by tag or character)
+def advanced_query(query, interest):
+    print(f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Some {query} doujins 4 u!\n")
+    for doujin in Utils.search_by_query(f"{interest}:{query}"):
+        print(f"\ {doujin.title(Format.Pretty)}")
+    print("\n|--------------------------------------------------------|\n")
+
+
 if args.random:
     cringy_phrases = [
         "Look at what I found",
@@ -105,8 +138,15 @@ if args.random:
         f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] {phrase}:   {doujin.title(Format.Pretty)}"
     )
     print("\n|--------------------------------------------------------|\n")
-    details()
 
+    if args.details:
+        details()
+
+    if args.download:
+        download()
+
+    if args.source:
+        source()
 
 if args.id:
     doujin = Hentai(args.id)
@@ -126,12 +166,13 @@ if args.id:
         details()
 
     if args.download:
-        print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}]")
-        doujin.download(progressbar=True)
-        print("\n|--------------------------------------------------------|\n")
+        download()
 
     if args.source:
-        print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Source:")
-        for image in doujin.image_urls:
-            print(f"            {image}")
-        print("\n|--------------------------------------------------------|\n")
+        source()
+
+if args.query:
+    if args.interest:
+        advanced_query(args.query, args.interest)
+    else:
+        print(f"[{colorama.Fore.RED}X{colorama.Fore.WHITE}] You must specify your area of interest (tag, character...)\n    Use the option -h for help")
