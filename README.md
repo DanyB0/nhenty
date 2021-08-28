@@ -24,4 +24,3 @@
 
 # Visual Mode
 [![ezgif-com-gif-maker.gif](https://i.postimg.cc/sxMZF8C8/ezgif-com-gif-maker.gif)](https://postimg.cc/hQqGT2jb)
-### The only thing you can't do in this mode is viewing the source of the images (links)
