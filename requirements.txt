@@ -1,0 +1,2 @@
+colorama
+hentai --only-binary all
