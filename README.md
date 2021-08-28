@@ -15,4 +15,6 @@
 - ### `-dtls, --details` to get the details of the doujin
 - ### `-src, --source` to view the links to the doujin's images
 - ### `-d, --download` to download the doujin
+- ### `-q, --query` to make a specific query
+- ### `-i, --interest` to use with --query (you must specific the interest [tag, character...])
 - ### `-h` show help message
