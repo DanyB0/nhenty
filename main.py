@@ -51,10 +51,10 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-def id_doujin(id):
+def id_doujin(doujin_id):
     # Check that the doujin exists
     try:
-        doujin = Hentai(id)
+        doujin = Hentai(doujin_id)
     except requests.exceptions.HTTPError:
         print(f"[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The doujin does not exist")
         exit()
@@ -187,13 +187,13 @@ def menu():
         print("\n")
         if choice == 1:
             print("SEARCH BY ID\n")
-            id = int(input("Doujin id: "))
+            doujin_id = int(input("Doujin id: "))
             ask_det = input("Do you want to see the details (y/n)? ")
             if ask_det == "y":
-                doujin = id_doujin(id)
+                doujin = id_doujin(doujin_id)
                 details(doujin)
             else:
-                doujin = id_doujin(id)
+                doujin = id_doujin(doujin_id)
             ask_down = input("Do you want to download the doujin (y/n)? ")
             if ask_down == "y":
                 download(doujin)
@@ -252,8 +252,8 @@ if __name__ == "__main__":
             source(doujin)
 
     elif args.id:
-        id = args.id
-        doujin = id_doujin(id)
+        doujin_id = args.id
+        doujin = id_doujin(doujin_id)
 
         if args.details:
             details(doujin)
