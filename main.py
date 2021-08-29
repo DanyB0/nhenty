@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "-r", "--random", dest="random", help="Random doujin", action="store_true"
 )
-parser.add_argument("-id", dest="id", type=int, help="Doujin id", action="store")
+parser.add_argument("-id", dest="id", type=str, help="Doujin id", action="store")
 parser.add_argument(
     "-dtls",
     "--details",
@@ -56,8 +56,8 @@ def id_doujin(doujin_id):
     try:
         doujin = Hentai(doujin_id)
     except requests.exceptions.HTTPError:
-        print(f"[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The doujin does not exist")
-        exit()
+        print(f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The doujin does not exist")
+        menu()
 
     # Doujin's title
     print(
@@ -90,13 +90,9 @@ def details(doujin):
     except IndexError:
         pass
 
-    """
 
-         The "doujin.artist" response is a type object, which I convereted
-         in a string and extracted all the informations I wanted
-
-    """
-
+    # The "doujin.artist" response is a type object, which I convereted
+    # in a string and extracted all the informations I wanted
     try:
         art_info_str = art_info_str[4:-1].replace(" ", "")
     except UnboundLocalError:
@@ -187,14 +183,19 @@ def menu():
         print("\n")
         if choice == 1:
             print("SEARCH BY ID\n")
-            doujin_id = int(input("Doujin id: "))
-            ask_det = input("Do you want to see the details (y/n)? ")
+            # Check that the id is a number
+            try:
+                doujin_id = int(input("Doujin id: "))
+            except ValueError:
+                print(f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The id must be a number")
+                menu()
+            ask_det = input("Do you want to see the details (y/N)? ")
             if ask_det == "y":
                 doujin = id_doujin(doujin_id)
                 details(doujin)
             else:
                 doujin = id_doujin(doujin_id)
-            ask_down = input("Do you want to download the doujin (y/n)? ")
+            ask_down = input(f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? ")
             if ask_down == "y":
                 download(doujin)
                 menu()
@@ -203,13 +204,13 @@ def menu():
 
         elif choice == 2:
             print("RANDOM DOUJIN\n")
-            ask_det = input("Do you want to see the details (y/n)? ")
+            ask_det = input("Do you want to see the details (y/N)? ")
             if ask_det == "y":
                 doujin = random_doujin()
                 details(doujin)
             else:
                 doujin = random_doujin()
-            ask_down = input("Do you want to download the doujin (y/n)? ")
+            ask_down = input(f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? ")
             if ask_down == "y":
                 download(doujin)
                 menu()
@@ -253,6 +254,13 @@ if __name__ == "__main__":
 
     elif args.id:
         doujin_id = args.id
+        # Check that the id is a number
+        try:
+            doujin_id = int(doujin_id)
+        except ValueError:
+            print(f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The id must be a number")
+            exit()
+
         doujin = id_doujin(doujin_id)
 
         if args.details:
