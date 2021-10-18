@@ -124,13 +124,6 @@ def details(doujin):
 
 
 def random_doujin():
-    cringy_phrases = [
-        "Look at what I found",
-        "Hmmmmm",
-        "Yummy ;)",
-        "OMG this is fantastic!!!",
-        "Ya-yamete kudasai onii-chan",
-    ]
     # Get a random phrase
     phrase = random.choices(cringy_phrases)[0]
 
@@ -141,7 +134,7 @@ def random_doujin():
 
     # Doujin's title
     print(
-        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] {phrase}:   {doujin.title(Format.Pretty)}\n"
+        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Title: {doujin.title(Format.Pretty)}\n"
     )
     return doujin
 
