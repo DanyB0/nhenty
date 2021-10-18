@@ -126,8 +126,6 @@ def details(doujin):
 
 
 def random_doujin():
-    # Get a random phrase
-    phrase = random.choices(cringy_phrases)[0]
 
     # Get a randon ID
     rand_hnt = Utils.get_random_id()
