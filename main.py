@@ -58,7 +58,9 @@ def id_doujin(doujin_id):
     try:
         doujin = Hentai(doujin_id)
     except requests.exceptions.HTTPError:
-        print(f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The doujin does not exist")
+        print(
+            f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The doujin does not exist"
+        )
         menu()
 
     # Doujin's title
@@ -91,7 +93,6 @@ def details(doujin):
         art_info_str = str(doujin.artist[0])
     except IndexError:
         pass
-
 
     # The "doujin.artist" response is a type object, which I convereted
     # in a string and extracted all the informations I wanted
@@ -126,6 +127,8 @@ def details(doujin):
 
 
 def random_doujin():
+    # Get a random phrase
+    phrase = random.choices(cringy_phrases)[0]
 
     # Get a randon ID
     rand_hnt = Utils.get_random_id()
@@ -180,7 +183,9 @@ def menu():
             try:
                 doujin_id = int(input("Doujin id: "))
             except ValueError:
-                print(f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The id must be a number")
+                print(
+                    f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The id must be a number"
+                )
                 menu()
             ask_det = input("Do you want to see the details (y/N)? ")
             if ask_det == "y":
@@ -188,7 +193,9 @@ def menu():
                 details(doujin)
             else:
                 doujin = id_doujin(doujin_id)
-            ask_down = input(f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? ")
+            ask_down = input(
+                f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? "
+            )
             if ask_down == "y":
                 download(doujin)
                 menu()
@@ -203,7 +210,9 @@ def menu():
                 details(doujin)
             else:
                 doujin = random_doujin()
-            ask_down = input(f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? ")
+            ask_down = input(
+                f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? "
+            )
             if ask_down == "y":
                 download(doujin)
                 menu()
@@ -251,7 +260,9 @@ if __name__ == "__main__":
         try:
             doujin_id = int(doujin_id)
         except ValueError:
-            print(f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The id must be a number")
+            print(
+                f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The id must be a number"
+            )
             exit()
 
         doujin = id_doujin(doujin_id)
