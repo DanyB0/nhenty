@@ -5,16 +5,20 @@
 ### Nhenty is a simple doujins downloader
 ## Installation
 - #### clone the repo wherever you want
-  - > ```git clone https://www.github.com/DanyB0/nhenty```
+  ```
+  git clone https://www.github.com/DanyB0/nhenty
+  ```
 - #### install the requirements
-  - > ```pip install -r requirements.txt```
+  ```
+  pip install -r requirements.txt
+  ```
 - #### you're ready to go!
 ## Usage
 ```
 python main.py [commands]
 ```
 ## Commands list
-```python                                                                                    
+```                                                                                   
  -h                 =   show help message
  
  -visual            =   enter visual mode (see below)                                                     
