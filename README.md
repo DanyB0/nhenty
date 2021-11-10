@@ -4,22 +4,43 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 ### Nhenty is a simple doujins downloader
 ## Installation
-- #### clone the repo wherever you want ( `git clone https://www.github.com/DanyB0/nhenty` )
-- #### install the requirements ( `pip install -r requirements.txt` )
+- #### clone the repo wherever you want
+  - > ```git clone https://www.github.com/DanyB0/nhenty```
+- #### install the requirements
+  - > ```pip install -r requirements.txt```
 - #### you're ready to go!
 ## Usage
-- #### `python main.py [commands]`
+```
+python main.py [commands]
+```
 ## Commands list
-- #### `-visual`  🠒  enter visual mode (see below)
-- #### `-id`  🠒  to get the title of the doujin with the given id
-- #### `-r, --random`  🠒  to get a random doujin
-- #### `-dtls, --details`  🠒  to get the details of the doujin
-- #### `-src, --source`  🠒  to view the links to the doujin's images
-- #### `-d, --download`  🠒  to download the doujin
-- #### `-q, --query`  🠒  to make a specific query
-- #### `-i, --interest`  🠒  to use with --query (you must specific the interest [tag, character...])
-- #### `-h`  🠒  show help message
+```python
+ -visual           =  enter visual mode (see below)                                         
+                                                                                        
+ -dtls, --details  =  get the details of the doujin                                         
+                                                                                       
+ -src, --source    =   view the links to the doujin's images                                 
+                                                                                       
+ -id               =   get the title of the doujin with the given id                         
+                                                                                          
+ -r, --random      =   get a random doujin                                                   
+                                                                                         
+ -d, --download    =   download the doujin                                                   
+                                                                                         
+ -q, --query       =   make a specific query                                                 
+                                                                                         
+ -i, --interest    =   use with --query (you must specific the interest [tag, character...]) 
+                                                                                         
+ -h                =   show help message                                                     
+```
 # Visual Mode
 [![ezgif-com-gif-maker.gif](https://i.postimg.cc/sxMZF8C8/ezgif-com-gif-maker.gif)](https://postimg.cc/hQqGT2jb)
 # CLI Mode
 [![ezgif-com-gif-maker-1.gif](https://i.postimg.cc/nzCw5FMt/ezgif-com-gif-maker-1.gif)](https://postimg.cc/phMZ5tD0)
+## Team
+This project is maintained by me.
+[![DanyB0](https://avatars.githubusercontent.com/u/66164380?s=100)](https://github.com/DanyB0) |
+--- |
+[DanyB0](https://github.com/DanyB0) |
+## License
+[BSD 3-Clause License](./LICENSE)
