@@ -14,24 +14,24 @@
 python main.py [commands]
 ```
 ## Commands list
-```python
- -visual           =  enter visual mode (see below)                                         
-                                                                                        
- -dtls, --details  =  get the details of the doujin                                         
+```python                                                                                    
+ -h                 =   show help message
+ 
+ -visual            =   enter visual mode (see below)                                                     
                                                                                        
- -src, --source    =   view the links to the doujin's images                                 
-                                                                                       
- -id               =   get the title of the doujin with the given id                         
+ -id                =   get the title of the doujin with the given id                 
+ 
+ -r, --random       =   get a random doujin
+ 
+ -d, --download     =   download the doujin
+ 
+ -src, --source     =   view the links to the doujin's images
+ 
+ -dtls, --details   =   get the details of the doujin
+                                                                                           
+ -q, --query        =   make a specific query
                                                                                           
- -r, --random      =   get a random doujin                                                   
-                                                                                         
- -d, --download    =   download the doujin                                                   
-                                                                                         
- -q, --query       =   make a specific query                                                 
-                                                                                         
- -i, --interest    =   use with --query (you must specific the interest [tag, character...]) 
-                                                                                         
- -h                =   show help message                                                     
+ -i, --interest     =   use with --query (you must specific the interest [tag, character...])
 ```
 # Visual Mode
 [![ezgif-com-gif-maker.gif](https://i.postimg.cc/sxMZF8C8/ezgif-com-gif-maker.gif)](https://postimg.cc/hQqGT2jb)
