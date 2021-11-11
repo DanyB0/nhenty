@@ -2,20 +2,23 @@
 
 import argparse
 import random
+import webbrowser
 
 import colorama
 import requests
 from hentai import Format, Hentai, Utils
 
 parser = argparse.ArgumentParser(
-    description="Doujins downloader from https://www.nhentai.net",
+    description="Doujins downloader from https://nhentai.net",
     epilog="Enjoy the program! :)",
 )
 
 parser.add_argument(
     "-r", "--random", dest="random", help="Random doujin", action="store_true"
 )
+
 parser.add_argument("-id", dest="id", type=str, help="Doujin id", action="store")
+
 parser.add_argument(
     "-dtls",
     "--details",
@@ -46,6 +49,10 @@ parser.add_argument(
 parser.add_argument("-q", "--query", dest="query", help="Query", action="store")
 
 parser.add_argument(
+    "-w", "--web", dest="web", help="Open doujin in browser", action="store_true"
+)
+
+parser.add_argument(
     "-visual", dest="visual", help="Use the 'visual' mode", action="store_true"
 )
 
@@ -65,7 +72,7 @@ def id_doujin(doujin_id):
 
     # Doujin's title
     print(
-        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Title: {doujin.title(Format.Pretty)}\n"
+        f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Title: {doujin.title(Format.Pretty)}"
     )
 
     if args.download:
@@ -75,7 +82,7 @@ def id_doujin(doujin_id):
 
 
 # Display the doujin's informations
-def details(doujin):
+def details(doujin, base_url):
     # Display the doujin's tags
     tags = []
     try:
@@ -83,7 +90,10 @@ def details(doujin):
             tags.append(f"{tag.name}")
     except IndexError:
         pass
-    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Tag:   {tags[0]}")
+    try:
+        print(f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Tag:   {tags[0]}")
+    except IndexError:
+        pass
     tags.pop(0)
     for tag in tags:
         print(f"           {tag}")
@@ -122,6 +132,9 @@ def details(doujin):
     except IndexError:
         pass
 
+    if args.web:
+        open_web(doujin, base_url)
+
     if args.download:
         download(doujin)
 
@@ -140,10 +153,14 @@ def random_doujin():
 
 
 # View the source images
-def source(doujin):
+def source(doujin, base_url):
     print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Source:")
     for image in doujin.image_urls:
         print(f"            {image}")
+
+    if args.web:
+        open_web(doujin, base_url)
+
     if args.download:
         download(doujin)
 
@@ -154,16 +171,23 @@ def download(doujin):
     doujin.download(progressbar=True)
 
 
+# Advanced search
 def func_query(interest, query):
     print(
         f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Some {query} doujins 4 u!\n"
     )
-    for doujin in Utils.search_by_query(f"{interest}:{query}"):
+    for doujin in Utils.search_by_query(f"{interest}:{query}", sort=Sort.PopularWeek):
         print(f"\ {doujin.title(Format.Pretty)}")
 
 
+# open link in browser
+def open_web(doujin, base_url):
+    print(f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Opening browser...")
+    webbrowser.open(base_url + str(doujin.id))
+
+
 # Visual part
-def menu():
+def menu(base_url):
     if args.visual:
         print(
             f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] What do you want to do? [1-3]\n"
@@ -184,43 +208,70 @@ def menu():
                     f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The id must be a number"
                 )
                 menu()
-            ask_det = input("Do you want to see the details (y/N)? ")
+            ask_det = input(f"[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to see the details (y/N)? ")
             if ask_det == "y":
                 doujin = id_doujin(doujin_id)
-                details(doujin)
+                details(doujin, base_url)
             else:
                 doujin = id_doujin(doujin_id)
             ask_down = input(
                 f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? "
             )
-            if ask_down == "y":
-                download(doujin)
-                menu()
+            ask_web = input(
+                f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to open the doujin in the browser (y/N)? "
+            )
+            if ask_web == "y":
+                if ask_down == "y":
+                    download(doujin)
+                    open_web(doujin, base_url)
+                    menu(base_url)
+                else:
+                    open_web(doujin, base_url)
+                    menu(base_url)
             else:
-                menu()
+                if ask_down == "y":
+                    download(doujin)
+                    open_web(doujin, base_url)
+                    menu(base_url)
+                else:
+                    menu(base_url)
 
         elif choice == 2:
             print("RANDOM DOUJIN\n")
-            ask_det = input("Do you want to see the details (y/N)? ")
+            ask_det = input(f"[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to see the details (y/N)? ")
             if ask_det == "y":
                 doujin = random_doujin()
-                details(doujin)
+                details(doujin, base_url)
             else:
                 doujin = random_doujin()
             ask_down = input(
                 f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to download the doujin (y/N)? "
             )
-            if ask_down == "y":
-                download(doujin)
-                menu()
+            ask_web = input(
+                f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to open the doujin in the browser (y/N)? "
+            )
+            if ask_web == "y":
+                if ask_down == "y":
+                    download(doujin)
+                    open_web(doujin, base_url)
+                    menu(base_url)
+                else:
+                    open_web(doujin, base_url)
+                    menu(base_url)
             else:
-                menu()
+                if ask_down == "y":
+                    download(doujin)
+                    open_web(doujin, base_url)
+                    menu(base_url)
+                else:
+                    menu(base_url)
+
         elif choice == 3:
             print("ADVANCED QUERY\n")
             interest = input("Write your interest (tag, character...): ")
             query = input("Query: ")
             func_query(interest, query)
-            menu()
+            menu(base_url)
 
         elif choice == 4:
             print("Bye :)")
@@ -229,6 +280,8 @@ def menu():
 
 if __name__ == "__main__":
 
+    base_url = "https://nhentai.net/g/"
+
     print("     __ _                _          ")
     print("  /\ \ \ |__   ___ _ __ | |_ _   _ ")
     print(" /  \/ / '_ \ / _ \ '_ \| __| | | |")
@@ -236,20 +289,23 @@ if __name__ == "__main__":
     print("\_\ \/ |_| |_|\___|_| |_|\__|\__, |")
     print("                             |___/ ")
 
-    menu()
+    menu(base_url)
 
     # CLI part
     if args.random:
         doujin = random_doujin()
 
         if args.details:
-            details(doujin)
+            details(doujin, base_url)
 
         elif args.download:
             download(doujin)
 
         elif args.source:
-            source(doujin)
+            source(doujin, base_url)
+
+        elif args.web:
+            open_web(doujin, base_url)
 
     elif args.id:
         doujin_id = args.id
@@ -265,10 +321,13 @@ if __name__ == "__main__":
         doujin = id_doujin(doujin_id)
 
         if args.details:
-            details(doujin)
+            details(doujin, base_url)
 
         elif args.source:
-            source(doujin)
+            source(doujin, base_url)
+
+        elif args.web:
+            open_web(doujin, base_url)
 
     elif args.query:
         if args.interest:
