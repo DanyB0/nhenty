@@ -176,7 +176,7 @@ def func_query(interest, query):
     print(
         f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Some {query} doujins 4 u!\n"
     )
-    for doujin in Utils.search_by_query(f"{interest}:{query}"):
+    for doujin in Utils.search_by_query(f"{interest}:{query}", sort=Sort.PopularWeek):
         print(f"\ {doujin.title(Format.Pretty)}")
 
 
@@ -196,7 +196,14 @@ def menu(base_url):
         print("2) Get a random doujin")
         print("3) Advanced query")
         print("4) Exit")
-        choice = int(input("\nChoice: "))
+        choice = input("\nChoice: ")
+        try:
+            choice = int(choice)
+        except ValueError:
+            print(
+                f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] You must select a number"
+            )
+            menu(base_url)
         print("\n")
         if choice == 1:
             print("SEARCH BY ID\n")
