@@ -29,6 +29,8 @@ python main.py [commands]
  
  -d, --download     =   download the doujin
  
+ -w, --web          =   open the doujin in the browser
+ 
  -src, --source     =   view the links to the doujin's images
  
  -dtls, --details   =   get the details of the doujin
