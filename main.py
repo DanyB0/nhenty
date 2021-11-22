@@ -176,7 +176,7 @@ def func_query(interest, query):
     print(
         f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Some {query} doujins 4 u!\n"
     )
-    for doujin in Utils.search_by_query(f"{interest}:{query}", sort=Sort.PopularWeek):
+    for doujin in Utils.search_by_query(f"{interest}:{query}"):
         print(f"\ {doujin.title(Format.Pretty)}")
 
 
