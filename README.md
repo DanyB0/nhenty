@@ -19,11 +19,9 @@ python main.py [commands]
 ```
 ## Commands list
 ```                                                                                   
- -h                 =   show help message
- 
- -visual            =   enter visual mode (see below)                                                     
+ --visual           =   enter visual mode (see below)
                                                                                        
- -id                =   get the title of the doujin with the given id                 
+ -id                =   get the title of the doujin with the given id
  
  -r, --random       =   get a random doujin
  
@@ -38,6 +36,8 @@ python main.py [commands]
  -q, --query        =   make a specific query
                                                                                           
  -i, --interest     =   use with --query (you must specific the interest [tag, character...])
+
+ -h, --help         =   show help message
 ```
 # Visual Mode
 [![ezgif-com-gif-maker.gif](https://i.postimg.cc/sxMZF8C8/ezgif-com-gif-maker.gif)](https://postimg.cc/hQqGT2jb)

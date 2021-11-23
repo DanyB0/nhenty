@@ -53,7 +53,7 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "-visual", dest="visual", help="Use the 'visual' mode", action="store_true"
+    "--visual", dest="visual", help="Use the 'visual' mode", action="store_true"
 )
 
 
@@ -82,7 +82,7 @@ def id_doujin(doujin_id):
 
 
 # Display the doujin's informations
-def details(doujin, base_url):
+def details(doujin, BASE_URL):
     # Display the doujin's tags
     tags = []
     try:
@@ -133,7 +133,7 @@ def details(doujin, base_url):
         pass
 
     if args.web:
-        open_web(doujin, base_url)
+        open_web(doujin, BASE_URL)
 
     if args.download:
         download(doujin)
@@ -153,13 +153,13 @@ def random_doujin():
 
 
 # View the source images
-def source(doujin, base_url):
+def source(doujin, BASE_URL):
     print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Source:")
     for image in doujin.image_urls:
         print(f"            {image}")
 
     if args.web:
-        open_web(doujin, base_url)
+        open_web(doujin, BASE_URL)
 
     if args.download:
         download(doujin)
@@ -181,13 +181,13 @@ def func_query(interest, query):
 
 
 # open link in browser
-def open_web(doujin, base_url):
+def open_web(doujin, BASE_URL):
     print(f"\n[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Opening browser...")
-    webbrowser.open(base_url + str(doujin.id))
+    webbrowser.open(BASE_URL + str(doujin.id))
 
 
 # Visual part
-def menu(base_url):
+def menu(BASE_URL):
     if args.visual:
         print(
             f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] What do you want to do? [1-3]\n"
@@ -203,7 +203,7 @@ def menu(base_url):
             print(
                 f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] You must select a number"
             )
-            menu(base_url)
+            menu(BASE_URL)
         print("\n")
         if choice == 1:
             print("SEARCH BY ID\n")
@@ -218,7 +218,7 @@ def menu(base_url):
             ask_det = input(f"[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to see the details (y/N)? ")
             if ask_det == "y":
                 doujin = id_doujin(doujin_id)
-                details(doujin, base_url)
+                details(doujin, BASE_URL)
             else:
                 doujin = id_doujin(doujin_id)
             ask_down = input(
@@ -230,25 +230,25 @@ def menu(base_url):
             if ask_web == "y":
                 if ask_down == "y":
                     download(doujin)
-                    open_web(doujin, base_url)
-                    menu(base_url)
+                    open_web(doujin, BASE_URL)
+                    menu(BASE_URL)
                 else:
-                    open_web(doujin, base_url)
-                    menu(base_url)
+                    open_web(doujin, BASE_URL)
+                    menu(BASE_URL)
             else:
                 if ask_down == "y":
                     download(doujin)
-                    open_web(doujin, base_url)
-                    menu(base_url)
+                    open_web(doujin, BASE_URL)
+                    menu(BASE_URL)
                 else:
-                    menu(base_url)
+                    menu(BASE_URL)
 
         elif choice == 2:
             print("RANDOM DOUJIN\n")
             ask_det = input(f"[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] Do you want to see the details (y/N)? ")
             if ask_det == "y":
                 doujin = random_doujin()
-                details(doujin, base_url)
+                details(doujin, BASE_URL)
             else:
                 doujin = random_doujin()
             ask_down = input(
@@ -260,25 +260,25 @@ def menu(base_url):
             if ask_web == "y":
                 if ask_down == "y":
                     download(doujin)
-                    open_web(doujin, base_url)
-                    menu(base_url)
+                    open_web(doujin, BASE_URL)
+                    menu(BASE_URL)
                 else:
-                    open_web(doujin, base_url)
-                    menu(base_url)
+                    open_web(doujin, BASE_URL)
+                    menu(BASE_URL)
             else:
                 if ask_down == "y":
                     download(doujin)
-                    open_web(doujin, base_url)
-                    menu(base_url)
+                    open_web(doujin, BASE_URL)
+                    menu(BASE_URL)
                 else:
-                    menu(base_url)
+                    menu(BASE_URL)
 
         elif choice == 3:
             print("ADVANCED QUERY\n")
             interest = input("Write your interest (tag, character...): ")
             query = input("Query: ")
             func_query(interest, query)
-            menu(base_url)
+            menu(BASE_URL)
 
         elif choice == 4:
             print("Bye :)")
@@ -287,7 +287,7 @@ def menu(base_url):
 
 if __name__ == "__main__":
 
-    base_url = "https://nhentai.net/g/"
+    BASE_URL = "https://nhentai.net/g/"
 
     print("     __ _                _          ")
     print("  /\ \ \ |__   ___ _ __ | |_ _   _ ")
@@ -296,23 +296,23 @@ if __name__ == "__main__":
     print("\_\ \/ |_| |_|\___|_| |_|\__|\__, |")
     print("                             |___/ ")
 
-    menu(base_url)
+    menu(BASE_URL)
 
     # CLI part
     if args.random:
         doujin = random_doujin()
 
         if args.details:
-            details(doujin, base_url)
+            details(doujin, BASE_URL)
 
         elif args.download:
             download(doujin)
 
         elif args.source:
-            source(doujin, base_url)
+            source(doujin, BASE_URL)
 
         elif args.web:
-            open_web(doujin, base_url)
+            open_web(doujin, BASE_URL)
 
     elif args.id:
         doujin_id = args.id
@@ -328,13 +328,13 @@ if __name__ == "__main__":
         doujin = id_doujin(doujin_id)
 
         if args.details:
-            details(doujin, base_url)
+            details(doujin, BASE_URL)
 
         elif args.source:
-            source(doujin, base_url)
+            source(doujin, BASE_URL)
 
         elif args.web:
-            open_web(doujin, base_url)
+            open_web(doujin, BASE_URL)
 
     elif args.query:
         if args.interest:
