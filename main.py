@@ -190,7 +190,7 @@ def open_web(doujin, BASE_URL):
 def menu(BASE_URL):
     if args.visual:
         print(
-            f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] What do you want to do? [1-3]\n"
+            f"\n[{colorama.Fore.YELLOW}?{colorama.Fore.WHITE}] What do you want to do? [1-4]\n"
         )
         print("1) Search by id")
         print("2) Get a random doujin")
