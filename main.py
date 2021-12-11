@@ -68,7 +68,7 @@ def id_doujin(doujin_id):
         print(
             f"\n[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The doujin does not exist"
         )
-        menu()
+        menu(BASE_URL)
 
     # Doujin's title
     print(
