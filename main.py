@@ -4,7 +4,6 @@ import argparse
 import os
 import random
 import webbrowser
-import tqdm
 
 import bs4
 import colorama
