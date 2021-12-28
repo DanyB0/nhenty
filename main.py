@@ -263,7 +263,6 @@ def menu(BASE_URL):
             else:
                 if ask_down == "y":
                     download(doujin, BASE_URL, BASE_DIR)
-                    # open_web(doujin, BASE_URL)
                     menu(BASE_URL)
                 else:
                     menu(BASE_URL)
@@ -295,7 +294,6 @@ def menu(BASE_URL):
             else:
                 if ask_down == "y":
                     download(doujin, BASE_URL, BASE_DIR)
-                    open_web(doujin, BASE_URL)
                     menu(BASE_URL)
                 else:
                     menu(BASE_URL)
