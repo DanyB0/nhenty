@@ -1,3 +1,4 @@
 colorama
 hentai
 requests
+bs4
