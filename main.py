@@ -113,10 +113,10 @@ def details(doujin, BASE_URL):
     except UnboundLocalError:
         exit()
     art_info = []
-    for i in range(len(art_info_str)):
+    for i, art_info_enum in enumerate(art_info_str):
         try:
-            if art_info_str[i] == ",":
-                info = art_info_str[:i]
+            if art_info_enum[i] == ",":
+                info = art_info_enum[:i]
                 art_info.append(info)
                 art_info_str = art_info_str.replace(f"{info},", "")
         except IndexError:
@@ -183,13 +183,12 @@ def download(doujin, BASE_URL, BASE_DIR):
 
     image = soup.findAll("img")
 
-    for i in range(len(image)):
-        image_url = image[i]["src"]
-        if not image_url.startswith("data"):
-            r = requests.get(image_url).content
+    for i, img in enumerate(image):
+        image_url = img[i]["src"]
+        if not img_url.startswith("data"):
+            r = requests.get(img_url).content
             with open(f"{i//2}.png", "wb+") as f:
                 f.write(r)
-        pass
     print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Download complete")
     os.chdir(BASE_DIR)
 
