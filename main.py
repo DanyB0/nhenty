@@ -5,10 +5,10 @@ import os
 import random
 import webbrowser
 
-import bs4
 import colorama
-import requests
 from hentai import Format, Hentai, Utils
+
+import utils
 
 parser = argparse.ArgumentParser(
     description="Doujins downloader from https://nhentai.net",
@@ -78,7 +78,7 @@ def id_doujin(doujin_id):
     )
 
     if args.download:
-        download(doujin, BASE_URL, BASE_DIR)
+        utils.download_doujin(doujin, BASE_DIR, BASE_URL)
 
     return doujin
 
@@ -113,10 +113,10 @@ def details(doujin, BASE_URL):
     except UnboundLocalError:
         exit()
     art_info = []
-    for i, art_info_enum in enumerate(art_info_str):
+    for i in range(len(art_info_str)):
         try:
-            if art_info_enum[i] == ",":
-                info = art_info_enum[:i]
+            if art_info_str[i] == ",":
+                info = art_info_str[:i]
                 art_info.append(info)
                 art_info_str = art_info_str.replace(f"{info},", "")
         except IndexError:
@@ -138,7 +138,7 @@ def details(doujin, BASE_URL):
         open_web(doujin, BASE_URL)
 
     if args.download:
-        download(doujin, BASE_URL, BASE_DIR)
+        utils.download_doujin(doujin, BASE_URL, BASE_DIR)
 
 
 def random_doujin():
@@ -164,33 +164,7 @@ def source(doujin, BASE_URL):
         open_web(doujin, BASE_URL)
 
     if args.download:
-        download(doujin, BASE_URL, BASE_DIR)
-
-
-# Download the doujin
-def download(doujin, BASE_URL, BASE_DIR):
-    if not os.path.exists(str(doujin.id)):
-        os.mkdir(str(doujin.id))
-        os.chdir(str(doujin.id))
-    else:
-        print(f"[{colorama.Fore.RED}X{colorama.Fore.WHITE}] The folder already exists")
-        exit()
-    print(f"\n[{colorama.Fore.YELLOW}...{colorama.Fore.WHITE}] Downloading...")
-    url = BASE_URL + str(doujin.id)
-    response = requests.get(url)
-
-    soup = bs4.BeautifulSoup(response.text, "html.parser")
-
-    image = soup.findAll("img")
-
-    for i, img in enumerate(image):
-        image_url = img[i]["src"]
-        if not img_url.startswith("data"):
-            r = requests.get(img_url).content
-            with open(f"{i//2}.png", "wb+") as f:
-                f.write(r)
-    print(f"[{colorama.Fore.GREEN}V{colorama.Fore.WHITE}] Download complete")
-    os.chdir(BASE_DIR)
+        utils.download_doujin(doujin, BASE_URL, BASE_DIR)
 
 
 # Advanced search
@@ -253,7 +227,7 @@ def menu(BASE_URL):
             )
             if ask_web == "y":
                 if ask_down == "y":
-                    download(doujin, BASE_URL, BASE_DIR)
+                    utils.download_doujin(doujin, BASE_DIR, BASE_URL)
                     open_web(doujin, BASE_URL)
                     menu(BASE_URL)
                 else:
@@ -261,7 +235,7 @@ def menu(BASE_URL):
                     menu(BASE_URL)
             else:
                 if ask_down == "y":
-                    download(doujin, BASE_URL, BASE_DIR)
+                    utils.download_doujin(doujin, BASE_DIR, BASE_URL)
                     menu(BASE_URL)
                 else:
                     menu(BASE_URL)
@@ -284,7 +258,7 @@ def menu(BASE_URL):
             )
             if ask_web == "y":
                 if ask_down == "y":
-                    download(doujin, BASE_URL, BASE_DIR)
+                    utils.download_doujin(doujin, BASE_DIR, BASE_URL)
                     open_web(doujin, BASE_URL)
                     menu(BASE_URL)
                 else:
@@ -292,7 +266,7 @@ def menu(BASE_URL):
                     menu(BASE_URL)
             else:
                 if ask_down == "y":
-                    download(doujin, BASE_URL, BASE_DIR)
+                    utils.download_doujin(doujin, BASE_DIR, BASE_URL)
                     menu(BASE_URL)
                 else:
                     menu(BASE_URL)
@@ -331,7 +305,7 @@ if __name__ == "__main__":
             details(doujin, BASE_URL)
 
         elif args.download:
-            download(doujin, BASE_URL, BASE_DIR)
+            utils.download_doujin(doujin, BASE_URL, BASE_DIR)
 
         elif args.source:
             source(doujin, BASE_URL)
